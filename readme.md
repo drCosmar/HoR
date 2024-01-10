@@ -1,39 +1,20 @@
+# Dr.Cosmar's "How Of Representatives"
 
-# Congress News Generator Package
+## Congress API & LM Studio Wrapper
+A simple script that provides a convenient wrapper for making requests to the [Congress API](https://api.congress.gov/v2/) and interacting with the interface of [LM Studio](https://lmstudio.ai). This tool can be used as part of larger programs or run independently, allowing you to build upon its functionality.
 
-## Overview
+### Prerequisites
+- Python 3.11+
+- LM Studio ([sign up here](https://www.lmstudio.ai/))
 
-This Python package offers a tool to access Congressional proceedings data, integrate it with AI-powered language processing, and generate informative news reports. It's designed for developers and researchers to experiment with real-time news generation from Congress.
+### Installation
+1. Run `pip install -r requirements.txt`
+2. Add your Congress API key to the .env file.
+3. Set up a server using LM Studio.
+4. Enter your server information from LM Studio into the .env file.
 
-## Key Features
+### Usage
+To see an example of how to use this tool, take a look at `example.py`. This file demonstrates the chat function. The `cong.py` module contains all the Congress API calls. For optimal performance, it's recommended to store and sort retrieved data in JSON files rather than making repeated API calls.
 
-Wraps the Congress API: Simplifies interaction with the Congress API to retrieve relevant data.
-Modular OOP Structure: Uses strict OOP and camelCase conventions for clear organization and extensibility.
-Designed for AI Integration: Facilitates integration with other AI APIs for language processing and news generation.
-Real-Time Reporting Potential: Built with the goal of enabling real-time news generation as Congress proceeds.
-## Getting Started
-
-Install the package using pip install [package_name]
-Import the necessary modules:
-Python
-from congress_news_generator import CongressDataFetcher, NewsGenerator
-Use code with caution. Learn more
-Fetch Congressional data:
-Python
-data_fetcher = CongressDataFetcher()
-proceedings_data = data_fetcher.get_proceedings(date="2023-11-21")
-Use code with caution. Learn more
-Integrate with your chosen AI APIs for news generation.
-## Additional Information
-
-No User Interface: This package provides back-end functionality for developers to build news generation systems.
-Dependencies: Lists any external libraries or APIs required for operation.
-Contribution Guidelines: Outlines how to contribute to the project.
-License: Specifies the project's licensing terms.
-## Project Status
-
-Current development stage (e.g., alpha, beta, stable).
-Roadmap for future features and real-time capabilities.
-## Contact
-
-Provides your contact information for questions or contributions.
+### Variables
+Leave variables like `DEFAULT` as-is unless you have a specific reason for changing them. Modifying these values may result in your Congress API access being revoked or other unexpected issues.
