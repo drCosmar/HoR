@@ -1,5 +1,5 @@
 from openai import OpenAI
-from utils import LMURL, loadingIndicator
+from src.utils import LMURL, loadingIndicator
 
 # Class used to access the LM Studio server on your device, and leverage the AI LLM within the project.
 # There can only be one client class at a time.
@@ -22,8 +22,9 @@ class client:
     def appendHsitoryAssistant(self, message):
         self.history.append( {"role": "assistant", "content": message})
         self.updateHistoryLen()
+    
     @loadingIndicator # This decorator is used to display a loading indicator while the completion is being processed.
-    def completion(self, message, stream=False):
+    def completion(self, message, stream=False, doneEvent=None):
         self.appendHistoryUser(message)
         comp = self.openai.chat.completions.create(
             model="local-model", # this field is currently unused
@@ -31,9 +32,10 @@ class client:
             temperature=0.7,
             stream=True # You cannot edit the parameters here. Leave streaming on.
             )
-
+        if stream:
+            doneEvent.set()
+            print("\n")
         newMessage = "" # This variable is used to store the new message.
-        
         for chunk in comp:
             if chunk.choices[0].delta.content:
                 if stream:
@@ -54,11 +56,12 @@ class client:
     # This chat function remains untested.
     def chat(self):
         while True:
-            uIn = input("> ")
+            uIn = input("\n>>> ")
             if uIn.lower() == "exit":
                 break
             self.completion(uIn, True)
     # This is the main function that is used to call the completion function within other parts of your program.
+    
     def main(self, message):
         response = self.completion(message)
         return response

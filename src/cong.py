@@ -1,4 +1,4 @@
-from utils import PATHS, CONAPI, DEFAULT, requests, re,\
+from src.utils import PATHS, CONAPI, DEFAULT, requests, re,\
     timeStamp, stringToDatetime
 
 # All research is limited by default to the current congress so they don't start restrictingtheir API.

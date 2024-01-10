@@ -38,24 +38,27 @@ def stringToDatetime(date:str) -> datetime.datetime:
     return date
 
 def loadingIndicator(func):
-    def spinner():  # Function to display a simple spinner animation
-        spinner_symbols = itertools.cycle(['-', '\\', '|', '/'])
-        while not done:
-            sys.stdout.write(next(spinner_symbols))  # Write the next spinner symbol
+    global doneEvent
+    def spinner(doneEvent):  # Function to display a simple spinner animation
+        spinnerSymbols = itertools.cycle(['-', '\\', '|', '/'])
+        loadingMsg = "Loading "
+        while not doneEvent.is_set():
+            sys.stdout.write(loadingMsg + next(spinnerSymbols))  # Write the next spinner symbol
             sys.stdout.flush()
             time.sleep(0.1)
-            sys.stdout.write('\b')  # Use backspace to remove the spinner symbol
+            sys.stdout.write('\b' * (len(loadingMsg) + 1))  # Use backspace to remove the spinner symbol
 
     def wrapper(*args, **kwargs):
-        global done
-        done = False
-        spinner_thread = threading.Thread(target=spinner)  # Create a thread for the spinner
-        spinner_thread.start()  # Start the spinner thread
-        result = func(*args, **kwargs)  # Run the decorated function
-        done = True  # Indicate that the task is done
-        spinner_thread.join()  # Wait for the spinner thread to finish
-        return result
+        doneEvent = threading.Event()  # Use threading.Event to control the spinner
+        spinnerThread = threading.Thread(target=spinner, args=(doneEvent,))  # Pass the Event to the spinner thread
+        spinnerThread.start()  # Start the spinner thread
 
+        # Run the decorated function and pass the Event to it
+        result = func(*args, **kwargs, doneEvent=doneEvent)
+        
+        doneEvent.set()  # Signal that the task is done
+        spinnerThread.join()  # Wait for the spinner thread to finish
+        return result
     return wrapper
 
 PATHS = pths()
