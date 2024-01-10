@@ -1,5 +1,5 @@
 from openai import OpenAI
-from src.utils import LMURL, loadingIndicator
+from bin.utils import LMURL, loadingIndicator
 
 # Class used to access the LM Studio server on your device, and leverage the AI LLM within the project.
 # There can only be one client class at a time.
@@ -21,8 +21,7 @@ class client:
     # Self explanatory
     def appendHsitoryAssistant(self, message):
         self.history.append( {"role": "assistant", "content": message})
-        self.updateHistoryLen()
-    
+        self.updateHistoryLen()   
     @loadingIndicator # This decorator is used to display a loading indicator while the completion is being processed.
     def completion(self, message, stream=False, doneEvent=None):
         self.appendHistoryUser(message)
@@ -60,8 +59,7 @@ class client:
             if uIn.lower() == "exit":
                 break
             self.completion(uIn, True)
-    # This is the main function that is used to call the completion function within other parts of your program.
-    
+    # This is the main function that is used to call the completion function within other parts of your program.    
     def main(self, message):
         response = self.completion(message)
         return response
