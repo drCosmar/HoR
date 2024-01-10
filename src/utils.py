@@ -1,4 +1,5 @@
-import pathlib, time, datetime, os, requests, re, threading, sys, itertools
+import pathlib, time, datetime, os, re,\
+    threading, sys, itertools, requests
 from dotenv import load_dotenv
 load_dotenv()
 

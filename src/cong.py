@@ -1,8 +1,9 @@
-from utils import os, PATHS, CONAPI, DEFAULT, requests, re,\
-timeStamp, stringToDatetime
+from utils import PATHS, CONAPI, DEFAULT, requests, re,\
+    timeStamp, stringToDatetime
 
 # All research is limited by default to the current congress so they don't start restrictingtheir API.
 # Please make sure you make API calls responsibly.
+# All functions shoud be self explanatory, but some remain untested.
 class congressProbe:
     def __init__(self):
         self.dataFp = PATHS.congressData
@@ -118,10 +119,8 @@ class congressProbe:
         
         hearings = self.requestHandler(self.url)
         return hearings
-    
-    #WARNING: This enpoint is very sensitive. It's It is not recommended to use it unless you know what you are doing.
+    #WARNING: This enpoint is very sensitive.
     # Default values are set to the prior day to today (your machine's date). It's intended use is for "lookup".
-    # Fetching the same day data, will usually fetch you incomplete data until the next day or even longer in some cases.
     # Use dailyConggresionalRecord or boundCongressionalRecords to get the most up to date data on proceedings.
     def getCongressionalRecord(self, date:str=None):
         if date == None:
