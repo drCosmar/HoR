@@ -1,5 +1,5 @@
 import pathlib, time, datetime, os, re,\
-    threading, sys, itertools, requests
+    threading, sys, itertools, requests, json
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -64,4 +64,6 @@ def loadingIndicator(func):
 PATHS = pths()
 LMURL = os.environ["LMSTUDIOURL"]
 CONAPI = os.environ["CONGRESSAPI"]
+## flips the bool to opposet of .evn setting, this is necessary for concurrency. 
+# DEFAULT == False, and it should not be touched here.
 DEFAULT = not os.getenv("DEFAULTS", "true") == "true"
